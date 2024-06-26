@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name ="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>task</title>
+    </head> 
+    <body>
+        <script>
+var xhr = new XMLHttpRequest();
+
+var apiUrl = "https://restcountries.com/v3.1/all";
+
+xhr.open("GET",  "https://restcountries.com/v3.1/all", true);
+
+xhr.onreadystatechange = function () {
+
+  if (xhr.readyState == 4 && xhr.status == 200) {
+
+    var countries = JSON.parse(xhr.responseText);
+
+    var countryUsingUSD = countries.find(function (country) {
+
+      return (
+        country.currencies &&
+        country.currencies.hasOwnProperty("USD") &&
+        country.currencies.USD
+      );
+    });
+
+    if (countryUsingUSD) {
+      console.log("Country using US dollars: " + countryUsingUSD.name.common);
+    } else {
+      console.log("No country found using US dollars.");
+    }
+  }
+};
+
+xhr.send();
+</script>
+    </body>
+</html>
